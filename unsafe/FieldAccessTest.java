@@ -19,7 +19,7 @@ public class FieldAccessTest {
 		return object.field;
 	}
 
-	public static long readModifyReflection(Field f, long amount, FieldAccessTest object) throws NoSuchFieldException, IllegalAccessException {
+	public static long readModifyReflection(Field f, long amount, FieldAccessTest object) throws IllegalAccessException {
 		f.setLong(object, 0);
 		for (int i = 0; i < amount; i++) {
 			f.setLong(object, f.getLong(object) + i);
@@ -74,7 +74,7 @@ public class FieldAccessTest {
 			averageUnsafeTime = (averageUnsafeTime * i + value) / (i + 1);
 			unsafeMeasure.add(value);
 		}
-		System.out.println("Unsafe modification average is " + averageUnsafeTime);
+		System.out.println("Unsafe modification check is done. Average is " + averageUnsafeTime + " ms.");
 
 		System.out.println("Reflection warm up");
 		checkReflection();
@@ -85,7 +85,7 @@ public class FieldAccessTest {
 			averageReflectionTime = (averageReflectionTime * i + value) / (i + 1);
 			reflectionMeasure.add(value);
 		}
-		System.out.println("Reflection modification average is " + averageReflectionTime);
+		System.out.println("Reflection modification check is done. Average is " + averageReflectionTime + " ms.");
 
 		System.out.println("Direct warm up");
 		checkDirect();
@@ -97,7 +97,7 @@ public class FieldAccessTest {
 			directMeasure.add(value);
 		}
 		System.out.println("Results:");
-		System.out.println("Unsafe modification average is " + averageUnsafeTime  + " ms. Median: " + calculateMedian(unsafeMeasure) + " ms.");
+		System.out.println("Unsafe modification average is " + averageUnsafeTime + " ms. Median: " + calculateMedian(unsafeMeasure) + " ms.");
 		System.out.println("Direct modification average is " + averageDirectTime + " ms. Median: " + calculateMedian(directMeasure) + " ms.");
 		System.out.println("Reflection modification average is " + averageReflectionTime + " ms. Median: " + calculateMedian(reflectionMeasure) + " ms.");
 	}
